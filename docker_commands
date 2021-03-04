@@ -1,0 +1,9 @@
+docker run -e "ACCEPT_EULA=Y" -e 'SA_PASSWORD=!Password123' -p 1433:1433 --name sql1 -h sql1 -d mcr.microsoft.com/mssql/server:2017-latest
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '!Password123'
+
+sqlcmd -S localhost,1433 -U SA -P '!Password123'
+
+docker run --network mynetwork -e SQLFQDN=sql1 -e SQLUSER=SA -e SQLPASS='!Password123' -e SQLDB=mydrivingDB openhack/data-load:v1
+
+docker run --network mynetwork -p 8080:80 --name poi tripinsights/poi:1.0
